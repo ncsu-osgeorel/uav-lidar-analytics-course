@@ -2,6 +2,9 @@
 
 # builds pages from source
 
+# URL of the new version
+URL="https://ncsu-geoforall-lab.github.io/uav-lidar-analytics-course/"
+
 function build_page_general {
     FILE_SOURCE=$1
     FILE_TARGET=$2
@@ -10,6 +13,8 @@ function build_page_general {
     OUTDIR=$5
     cat $HEAD_FILE > $OUTDIR/$FILE_TARGET
     echo "<!-- This is a generated file. Do not edit. -->" >> $OUTDIR/$FILE_TARGET
+    FILE=$FILE_TARGET
+    echo "<section><div style=\"background-color: #FA8; border: 4px solid #F00; padding: 10px;\"><p>This is an unmaintained course material, please see current material at:<ul><li><a href=\"$URL\">$URL</a></li><li><a href=\"$URL$FILE\">$URL$FILE</a> (likely URL)</li></ul></div></section>" >> $OUTDIR/$FILE_TARGET
     cat $FILE_SOURCE >> $OUTDIR/$FILE_TARGET
     cat $FOOT_FILE >> $OUTDIR/$FILE_TARGET
 }
@@ -66,6 +71,7 @@ do
         TGT_FILE=$OUTDIR/$DIR/`basename $FILE`
         ./increase-link-depth.py < $HEAD_FILE > $TGT_FILE
         echo "<!-- This is a generated file. Do not edit. -->" >> $TGT_FILE
+        echo "<div style=\"background-color: #FA8; border: 4px solid #F00; padding: 10px;\"><p>This is an unmaintained course material, please see current material at:<ul><li><a href=\"$URL\">$URL</a></li><li><a href=\"$URL$FILE\">$URL$FILE</a> (likely URL)</li></ul></div>" >> $TGT_FILE
         ./color-comments.py < $FILE | ./strip-whitestace.py >> $TGT_FILE
         ./increase-link-depth.py < $FOOT_FILE >> $TGT_FILE
     done
